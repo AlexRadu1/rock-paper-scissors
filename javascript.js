@@ -34,52 +34,82 @@ function getComputerChoice() {
   return choice;
 }
 
-function playRound(playersSelection, computerSelection) {
-  computerSelection = getComputerChoice();
-
-  if (playersSelection == computerSelection) {
-    return "It's a draw ! ";
-  } else if (playersSelection == "rock" && computerSelection == "paper") {
-    compWin++;
-
-    return "You Lose! paper beats rock";
-  } else if (playersSelection == "rock" && computerSelection == "scissors") {
-    playerWin++;
-
-    return "You Win! rock beats scissors";
-  } else if (playersSelection == "paper" && computerSelection == "rock") {
-    playerWin++;
-
-    return "You Win! paper beats rock";
-  } else if (playersSelection == "paper" && computerSelection == "scissors") {
-    compWin++;
-
-    return "You Lose! scissors beats paper";
-  } else if (playersSelection == "scissors" && computerSelection == "rock") {
-    compWin++;
-
-    return "You Lose! rock beats scissors";
-  } else if (playersSelection == "scissors" && computerSelection == "paper") {
-    playerWin++;
-
-    return "You Win! scissors beats paper";
-  }
-}
-
 let scoreKeeping = (player, comp) => {
   player = playerWin;
   comp = compWin;
   if (player === 5 || comp === 5) {
     if (player === 5) {
-      win.textContent = "Congratulation you won!";
+      win.textContent = `Congratulation you won ${player} to ${comp}!`;
       playerWin = 0;
       compWin = 0;
+      resetGame();
     } else {
       win.textContent = `Sorry you lost ${player} to ${comp} !`;
       playerWin = 0;
       compWin = 0;
+      resetGame();
     }
-  } else win.textContent = `Score is ${player} to ${comp}`;
+  } else {
+    win.textContent = `Score is ${player} to ${comp}`;
+  }
+};
+
+function playRound(playersSelection, computerSelection) {
+  removePlayerColor();
+  removeComputerColor();
+  playersSelection = this.dataset.name;
+  computerSelection = getComputerChoice();
+  if (
+    (playersSelection == "scissors" && computerSelection == "paper") ||
+    (playersSelection == "paper" && computerSelection == "rock") ||
+    (playersSelection == "rock" && computerSelection == "scissors")
+  ) {
+    playerWin++;
+    displayRound.textContent = `You win! ${playersSelection} beats ${computerSelection} !`;
+    scoreKeeping();
+  } else if (
+    (playersSelection == "scissors" && computerSelection == "rock") ||
+    (playersSelection == "paper" && computerSelection == "scissors") ||
+    (playersSelection == "rock" && computerSelection == "paper")
+  ) {
+    compWin++;
+    displayRound.textContent = `You Lose! ${computerSelection} beats ${playersSelection} !`;
+    scoreKeeping();
+  } else {
+    displayRound.textContent = `It's a draw!You both choose ${playersSelection} !`;
+    scoreKeeping();
+  }
+  computerButtonColor(computerSelection);
+  playerButtonColor(playersSelection);
+}
+
+let computerButtonColor = (com) => {
+  if (com == "rock") {
+    computerRock.classList.add("clicking");
+  } else if (com == "paper") {
+    computerPaper.classList.add("clicking");
+  } else {
+    computerScissors.classList.add("clicking");
+  }
+};
+
+let playerButtonColor = (com) => {
+  if (com == "rock") {
+    playerRock.classList.add("clicking");
+  } else if (com == "paper") {
+    playerPaper.classList.add("clicking");
+  } else {
+    playerScissors.classList.add("clicking");
+  }
+};
+
+let resetGame = () => {
+  playerRock.removeEventListener("click", playRound);
+  playerPaper.removeEventListener("click", playRound);
+  playerScissors.removeEventListener("click", playRound);
+  topDiv.appendChild(resetButton);
+  const reloadPage = document.querySelector(".reset-button");
+  reloadPage.addEventListener("click", refreshPage);
 };
 
 function removePlayerColor() {

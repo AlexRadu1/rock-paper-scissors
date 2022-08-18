@@ -5,18 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="./javascript.js" defer></script>
+
+    <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <h1>Make your choice</h1>
-    <button class="btn rock">Rock</button>
-    <button class="btn paper">Paper</button>
-    <button class="btn scissors">Scissors</button>
-    <div>
-      <p class="text"></p>
-      <div>
-        <p class="text-winner"></p>
+    <div class="main">
+      <div class="player-btn">
+        <button class="player btn rock" data-name="rock"></button>
+        <button class="player btn paper" data-name="paper"></button>
+        <button class="player btn scissors" data-name="scissors"></button>
+      </div>
+      <div class="content-wrapper">
+        <div class="top content">
+          <h1>Make your choice</h1>
+        </div>
+        <div class="outer-text">
+          <p class="text"></p>
+          <div class="inner-text">
+            <p class="text-winner"></p>
+          </div>
+        </div>
+      </div>
+      <div class="computer-buttons">
+        <button class="comp btn rock"></button>
+        <button class="comp btn paper"></button>
+        <button class="comp btn scissors"></button>
       </div>
     </div>
+    <script src="./javascript.js"></script>
   </body>
 </html>
