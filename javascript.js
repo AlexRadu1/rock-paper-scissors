@@ -11,18 +11,26 @@
 
 let playerWin = 0;
 let compWin = 0;
-let myChoice = "";
-let compChoice = "";
-const displayRound = document.querySelector(".text");
-const rock = document.querySelector(".rock");
-const scissors = document.querySelector(".scissors");
-const paper = document.querySelector(".paper");
+
+//player buttons
+const playerRock = document.querySelector(".player.rock");
+const playerScissors = document.querySelector(".player.scissors");
+const playerPaper = document.querySelector(".player.paper");
+//computer buttons
+const computerRock = document.querySelector(".comp.rock");
+const computerScissors = document.querySelector(".comp.scissors");
+const computerPaper = document.querySelector(".comp.paper");
+//text selectors
 const win = document.querySelector(".text-winner");
+const displayRound = document.querySelector(".text");
+const topDiv = document.querySelector(".content-wrapper");
+const resetButton = document.createElement("button");
+resetButton.classList.add("reset-button");
+resetButton.textContent = "Play again!";
 
 function getComputerChoice() {
   let choices = ["rock", "paper", "scissors"];
   let choice = choices[Math.floor(Math.random() * choices.length)];
-  console.log(choice);
   return choice;
 }
 
@@ -58,32 +66,36 @@ function playRound(playersSelection, computerSelection) {
   }
 }
 
-function game() {
-  console.log(playRound(myChoice, compChoice));
-  if (compWin == 3 || playerWin == 3) {
-    if (compWin == 3) {
-      console.log(`You lose 3 to ${playerWin}`);
+let scoreKeeping = (player, comp) => {
+  player = playerWin;
+  comp = compWin;
+  if (player === 5 || comp === 5) {
+    if (player === 5) {
+      win.textContent = "Congratulation you won!";
+      playerWin = 0;
+      compWin = 0;
     } else {
-      win.textContent = "Sorry you lost !";
+      win.textContent = `Sorry you lost ${player} to ${comp} !`;
       playerWin = 0;
       compWin = 0;
     }
   } else win.textContent = `Score is ${player} to ${comp}`;
+};
+
+function removePlayerColor() {
+  playerRock.classList.remove("clicking");
+  playerPaper.classList.remove("clicking");
+  playerScissors.classList.remove("clicking");
 }
 
-rock.addEventListener("click", () => {
-  myChoice = "rock";
-  displayRound.textContent = playRound(myChoice, getComputerChoice());
-  scoreKeeping(playerWin, compWin);
-});
-paper.addEventListener("click", () => {
-  myChoice = "paper";
-  displayRound.textContent = playRound(myChoice, getComputerChoice());
-  scoreKeeping(playerWin, compWin);
-});
+function removeComputerColor() {
+  computerRock.classList.remove("clicking");
+  computerPaper.classList.remove("clicking");
+  computerScissors.classList.remove("clicking");
+}
 
-scissors.addEventListener("click", () => {
-  myChoice = "scissors";
-  displayRound.textContent = playRound(myChoice, getComputerChoice());
-  scoreKeeping(playerWin, compWin);
-});
+let refreshPage = () => window.location.reload();
+
+playerRock.addEventListener("click", playRound);
+playerPaper.addEventListener("click", playRound);
+playerScissors.addEventListener("click", playRound);
